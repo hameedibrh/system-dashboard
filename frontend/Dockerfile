@@ -4,7 +4,8 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm ci
+# Use npm install instead of ci to work without package-lock.json
+RUN npm install
 
 COPY . .
 
