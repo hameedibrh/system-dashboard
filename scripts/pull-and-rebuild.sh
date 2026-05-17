@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# Dashboard auto-deployment script
+# Tenet - System Dashboard auto-deployment script
 # Triggered by GitHub webhook when changes are pushed to main branch
 # This script pulls the latest changes and rebuilds Docker containers
 
 set -e  # Exit on error
 
 # Configuration
-DASHBOARD_DIR="/opt/system-dashboard"
-LOG_FILE="/var/log/dashboard-deploy.log"
+DASHBOARD_DIR="/opt/tenet-dashboard"
+LOG_FILE="/var/log/tenet-dashboard-deploy.log"
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
 # Logging function
@@ -18,7 +18,7 @@ log() {
 }
 
 log "========================================"
-log "Starting dashboard deployment..."
+log "Starting Tenet - System Dashboard deployment..."
 log "========================================"
 
 # Check if directory exists
@@ -84,7 +84,7 @@ sleep 5
 if docker-compose ps | grep -q "Up"; then
     log "SUCCESS: All containers are running"
     SERVER_IP=$(hostname -I | awk '{print $1}')
-    log "Dashboard available at http://$SERVER_IP:8081"
+    log "Tenet Dashboard available at http://$SERVER_IP:8081"
     log "========================================"
     log "Deployment completed successfully!"
     log "========================================"

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-GitHub Webhook Listener for automatic deployments
+Tenet - GitHub Webhook Listener for automatic deployments
 
 Listens for GitHub webhook push events and triggers the deployment script
 to automatically deploy changes to the Linux server.
@@ -26,7 +26,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('/var/log/dashboard-webhook.log'),
+        logging.FileHandler('/var/log/tenet-webhook.log'),
         logging.StreamHandler()
     ]
 )
@@ -36,7 +36,7 @@ app = Flask(__name__)
 
 # GitHub webhook secret (set via environment variable)
 GITHUB_SECRET = os.getenv('GITHUB_SECRET', None)
-DEPLOYMENT_SCRIPT = '/opt/system-dashboard/scripts/pull-and-rebuild.sh'
+DEPLOYMENT_SCRIPT = '/opt/tenet-dashboard/scripts/pull-and-rebuild.sh'
 
 def verify_signature(payload_body, signature):
     """
@@ -153,13 +153,13 @@ def health():
     return jsonify({
         'status': 'ok',
         'timestamp': datetime.now().isoformat(),
-        'service': 'Dashboard Webhook Listener'
+        'service': 'Tenet - Webhook Listener'
     }), 200
 
 @app.route('/logs', methods=['GET'])
 def get_logs():
     """Get recent deployment logs (last 50 lines)"""
-    log_file = '/var/log/dashboard-deploy.log'
+    log_file = '/var/log/tenet-dashboard-deploy.log'
     
     if not os.path.exists(log_file):
         return jsonify({'logs': [], 'message': 'No logs found'}), 200
@@ -188,7 +188,7 @@ def internal_error(error):
     return jsonify({'error': 'Internal server error'}), 500
 
 if __name__ == '__main__':
-    logger.info("Starting GitHub Webhook Listener...")
+    logger.info("Starting Tenet - GitHub Webhook Listener...")
     logger.info(f"Listening on 0.0.0.0:5001")
     logger.info(f"Deployment script: {DEPLOYMENT_SCRIPT}")
     logger.info(f"GitHub secret verification: {'Enabled' if GITHUB_SECRET else 'Disabled'}")

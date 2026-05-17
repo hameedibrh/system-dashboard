@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-System Dashboard Backend API
+Tenet - System Dashboard Backend API
 
 Provides real-time system and Docker metrics via REST API and WebSocket
 """
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
-from flask_socketio import SocketIO, emit, send
+from flask_socketio import SocketIO, emit
 import logging
 from datetime import datetime
 import threading
@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 # Initialize Flask app
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'dashboard-secret-key-change-in-production'
+app.config['SECRET_KEY'] = 'tenet-dashboard-secret-key-change-in-production'
 CORS(app)
 
 # Initialize Socket.IO
@@ -49,7 +49,7 @@ def health_check():
     return jsonify({
         'status': 'ok',
         'timestamp': datetime.now().isoformat(),
-        'service': 'System Dashboard API'
+        'service': 'Tenet - System Dashboard API'
     }), 200
 
 @app.route('/api/system', methods=['GET'])
@@ -143,7 +143,7 @@ def handle_connect():
     """Handle client connection"""
     logger.info(f"Client connected: {request.sid}")
     emit('connection_response', {
-        'data': 'Connected to System Dashboard',
+        'data': 'Connected to Tenet - System Dashboard',
         'timestamp': datetime.now().isoformat()
     })
 
@@ -212,7 +212,7 @@ def internal_error(error):
 # ==================== Main ====================
 
 if __name__ == '__main__':
-    logger.info("Starting System Dashboard Backend API...")
+    logger.info("Starting Tenet - System Dashboard Backend API...")
     logger.info("Available endpoints:")
     logger.info("  GET  /api/health")
     logger.info("  GET  /api/system")

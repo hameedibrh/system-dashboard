@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Quick health check for the dashboard
+# Tenet - Quick health check for the dashboard
 # Useful for monitoring and verification
 
-echo "Checking Dashboard Services..."
+echo "Checking Tenet - System Dashboard Services..."
 echo ""
 
 BACKEND_URL="http://localhost:5000/api/health"

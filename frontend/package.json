@@ -1,7 +1,11 @@
 {
-  "name": "system-dashboard",
-  "version": "0.1.0",
+  "name": "tenet-dashboard",
+  "displayName": "Tenet - System Dashboard",
+  "version": "1.0.0",
   "private": true,
+  "description": "Real-time Linux system monitoring and Docker management dashboard",
+  "author": "System Dashboard Contributors",
+  "homepage": "https://github.com/hameedibrh/system-dashboard",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -51,7 +51,7 @@ function App() {
       <div className="app loading">
         <div className="loader">
           <div className="spinner"></div>
-          <p>Connecting to dashboard...</p>
+          <p>Connecting to Tenet...</p>
         </div>
       </div>
     );
@@ -61,7 +61,7 @@ function App() {
     <div className="app">
       <header className="header">
         <div className="header-content">
-          <h1>System Dashboard</h1>
+          <h1>Tenet</h1>
           <div className="header-right">
             <span className={`status ${connected ? 'connected' : 'disconnected'}`}>
               {connected ? '● Connected' : '● Disconnected'}
