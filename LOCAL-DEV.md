@@ -1,4 +1,4 @@
-# System Dashboard - Local Development Guide
+# Tenet - System Dashboard | Local Development Guide
 
 ## Quick Start
 
@@ -7,7 +7,7 @@
 - Git
 - 2GB+ RAM available
 
-### Run Locally
+### Run Tenet Locally
 
 ```bash
 # Clone repository
@@ -20,7 +20,7 @@ docker-compose up -d
 # Wait 10 seconds for services to initialize
 sleep 10
 
-# Access dashboard
+# Access Tenet at http://localhost:8081
 open http://localhost:8081
 # or
 curl http://localhost:8081
@@ -150,7 +150,7 @@ http://localhost:8081 (Frontend - Nginx)
 │   ├── webhook-server.py
 │   └── health-check.sh
 └── docs/
-    ├── DEPLOYMENT.md       # Deployment guide
+    ├── SERVER-DEPLOYMENT.md # Deployment guide
     └── LOCAL-DEV.md        # This file
 ```
 
@@ -217,3 +217,7 @@ netstat -tulpn | grep 8081
 ### Out of disk space
 - Clean up old images: `docker system prune -a`
 - Check disk: `df -h`
+
+## Project Naming
+
+Tenet - System Dashboard is the official project name. All code, documentation, and deployment references use this naming.

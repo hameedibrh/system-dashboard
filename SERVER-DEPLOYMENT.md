@@ -1,7 +1,7 @@
-# System Dashboard - Server Deployment Guide
+# Tenet - System Dashboard | Server Deployment Guide
 
 ## Overview
-This guide walks you through deploying the System Dashboard to your Linux server with automatic GitHub webhook deployments.
+This guide walks you through deploying Tenet - System Dashboard to your Linux server with automatic GitHub webhook deployments.
 
 ## Prerequisites
 
@@ -44,20 +44,20 @@ docker-compose --version
 
 ```bash
 # Create directory
-sudo mkdir -p /opt/system-dashboard
-cd /opt/system-dashboard
+sudo mkdir -p /opt/tenet-dashboard
+cd /opt/tenet-dashboard
 
 # Clone repository
 sudo git clone https://github.com/hameedibrh/system-dashboard.git .
 
 # Change ownership to current user
-sudo chown -R $USER:$USER /opt/system-dashboard
+sudo chown -R $USER:$USER /opt/tenet-dashboard
 ```
 
 ### Step 4: Configure Environment
 
 ```bash
-cd /opt/system-dashboard
+cd /opt/tenet-dashboard
 
 # Backend configuration
 cp backend/.env.example backend/.env
@@ -74,7 +74,7 @@ cp frontend/.env.example frontend/.env
 ### Step 5: Initial Deployment
 
 ```bash
-cd /opt/system-dashboard
+cd /opt/tenet-dashboard
 
 # Build and start containers
 docker-compose up -d
@@ -86,7 +86,7 @@ docker-compose ps
 docker-compose logs -f
 ```
 
-**Dashboard is now available at:** `http://your-server-ip:8081`
+**Tenet Dashboard is now available at:** `http://your-server-ip:8081`
 
 ### Step 6: Set Up Auto-Deployment with GitHub Webhook
 
@@ -94,22 +94,22 @@ docker-compose logs -f
 
 ```bash
 # Install Flask for webhook listener
-cd /opt/system-dashboard/scripts
+cd /opt/tenet-dashboard/scripts
 sudo pip3 install -r requirements.txt
 
 # Create systemd service
-sudo tee /etc/systemd/system/dashboard-webhook.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/tenet-webhook.service > /dev/null <<EOF
 [Unit]
-Description=Dashboard GitHub Webhook Listener
+Description=Tenet Webhook Listener
 After=network.target
 Wants=network-online.target
 
 [Service]
 Type=simple
 User=$USER
-WorkingDirectory=/opt/system-dashboard
+WorkingDirectory=/opt/tenet-dashboard
 Environment="GITHUB_SECRET=your-webhook-secret-here"
-ExecStart=/usr/bin/python3 /opt/system-dashboard/scripts/webhook-server.py
+ExecStart=/usr/bin/python3 /opt/tenet-dashboard/scripts/webhook-server.py
 Restart=on-failure
 RestartSec=10
 StartLimitInterval=60
@@ -121,14 +121,14 @@ EOF
 
 # Enable and start the service
 sudo systemctl daemon-reload
-sudo systemctl enable dashboard-webhook.service
-sudo systemctl start dashboard-webhook.service
+sudo systemctl enable tenet-webhook.service
+sudo systemctl start tenet-webhook.service
 
 # Check status
-sudo systemctl status dashboard-webhook.service
+sudo systemctl status tenet-webhook.service
 
 # View logs
-sudo journalctl -u dashboard-webhook.service -f
+sudo journalctl -u tenet-webhook.service -f
 ```
 
 #### 6b. Configure GitHub Webhook
@@ -162,7 +162,7 @@ git push origin main
 # Recent Deliveries tab should show a successful delivery (green checkmark)
 
 # Check deployment logs
-sudo tail -f /var/log/dashboard-deploy.log
+sudo tail -f /var/log/tenet-dashboard-deploy.log
 
 # Or through the webhook listener
 curl http://localhost:5001/logs | python3 -m json.tool
@@ -172,15 +172,15 @@ curl http://localhost:5001/logs | python3 -m json.tool
 
 ```bash
 # Create systemd service for dashboard containers
-sudo tee /etc/systemd/system/dashboard.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/tenet-dashboard.service > /dev/null <<EOF
 [Unit]
-Description=System Dashboard Docker Compose
+Description=Tenet - System Dashboard Docker Compose
 After=docker.service
 Requires=docker.service
 
 [Service]
 Type=forking
-WorkingDirectory=/opt/system-dashboard
+WorkingDirectory=/opt/tenet-dashboard
 ExecStart=/usr/bin/docker-compose up -d
 ExecStop=/usr/bin/docker-compose down
 Restart=on-failure
@@ -193,16 +193,16 @@ EOF
 
 # Enable and test
 sudo systemctl daemon-reload
-sudo systemctl enable dashboard.service
-sudo systemctl start dashboard.service
+sudo systemctl enable tenet-dashboard.service
+sudo systemctl start tenet-dashboard.service
 
 # Verify
-sudo systemctl status dashboard.service
+sudo systemctl status tenet-dashboard.service
 ```
 
 ## Usage
 
-### Accessing the Dashboard
+### Accessing Tenet Dashboard
 
 - **Local network**: `http://your-server-ip:8081`
 - **Custom domain**: Set up port forwarding and domain DNS
@@ -237,7 +237,7 @@ curl http://localhost:5001/health
 curl http://localhost:5001/logs | python3 -m json.tool
 
 # Check systemd logs
-sudo journalctl -u dashboard-webhook.service -n 50
+sudo journalctl -u tenet-webhook.service -n 50
 ```
 
 ## Troubleshooting
@@ -290,7 +290,7 @@ free -h
 
 2. Verify webhook server is running:
    ```bash
-   sudo systemctl status dashboard-webhook.service
+   sudo systemctl status tenet-webhook.service
    curl http://localhost:5001/health
    ```
 
@@ -309,13 +309,13 @@ free -h
 
 ```bash
 # Check deployment logs
-sudo tail -f /var/log/dashboard-deploy.log
+sudo tail -f /var/log/tenet-dashboard-deploy.log
 
 # Make sure script has execute permissions
-chmod +x /opt/system-dashboard/scripts/pull-and-rebuild.sh
+chmod +x /opt/tenet-dashboard/scripts/pull-and-rebuild.sh
 
 # Test script manually
-sudo /opt/system-dashboard/scripts/pull-and-rebuild.sh
+sudo /opt/tenet-dashboard/scripts/pull-and-rebuild.sh
 ```
 
 ## Monitoring
@@ -324,17 +324,17 @@ sudo /opt/system-dashboard/scripts/pull-and-rebuild.sh
 
 ```bash
 # Run health checks
-bash /opt/system-dashboard/scripts/health-check.sh
+bash /opt/tenet-dashboard/scripts/health-check.sh
 ```
 
 ### Logs
 
 ```bash
-# Dashboard deployment logs
-sudo tail -f /var/log/dashboard-deploy.log
+# Tenet deployment logs
+sudo tail -f /var/log/tenet-dashboard-deploy.log
 
 # Webhook listener logs
-sudo journalctl -u dashboard-webhook.service -f
+sudo journalctl -u tenet-webhook.service -f
 
 # Docker logs
 docker-compose logs -f
@@ -348,12 +348,12 @@ Add to crontab for periodic health check:
 crontab -e
 
 # Add this line:
-*/5 * * * * /opt/system-dashboard/scripts/health-check.sh > /dev/null 2>&1
+*/5 * * * * /opt/tenet-dashboard/scripts/health-check.sh > /dev/null 2>&1
 ```
 
 ## Security Notes
 
-1. **Change Flask Secret**: Update `FLASK_APP=app.py` secret key in production
+1. **Change Flask Secret**: Update secret key in production backend/.env
 2. **Use HTTPS**: Set up reverse proxy (nginx) with SSL/TLS
 3. **Restrict Access**: Use firewall rules to limit access to port 8081
 4. **Update Regularly**: Keep Docker images and dependencies updated

@@ -5,7 +5,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: dashboard-backend
+    container_name: tenet-backend
     ports:
       - "5000:5000"
     environment:
@@ -15,13 +15,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     networks:
-      - dashboard-network
+      - tenet-network
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: dashboard-frontend
+    container_name: tenet-frontend
     ports:
       - "8081:80"
     depends_on:
@@ -30,8 +30,8 @@ services:
       - REACT_APP_API_URL=http://localhost:5000
     restart: unless-stopped
     networks:
-      - dashboard-network
+      - tenet-network
 
 networks:
-  dashboard-network:
+  tenet-network:
     driver: bridge

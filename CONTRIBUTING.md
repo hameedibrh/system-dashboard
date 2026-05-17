@@ -1,4 +1,4 @@
-# Contribution Guidelines
+# Contributing to Tenet - System Dashboard
 
 ## Code Style
 
@@ -49,6 +49,10 @@ Include:
 
 Do not create public issues for security vulnerabilities.
 Email security concerns to the repository maintainer privately.
+
+## Project Name
+
+This project is called **Tenet - System Dashboard**. Please use this official name in all communications and documentation.
 
 ## License
 
