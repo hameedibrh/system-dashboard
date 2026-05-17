@@ -1,0 +1,42 @@
+.container-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #94a3b8;
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px dashed #475569;
+  border-radius: 10px;
+}
+
+.container-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.group-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #334155;
+}
+
+.containers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .containers-grid {
+    grid-template-columns: 1fr;
+  }
+}
